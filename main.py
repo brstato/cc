@@ -4,18 +4,11 @@ import flet_fastapi
 from flet_fastapi import FletApp
 from contextlib import asynccontextmanager
 from fastapi import FastAPI 
-import requests
-import asyncio
+# import requests
+# import asyncio
 from concurrent.futures import ThreadPoolExecutor
 from componentes.header import Header
 from componentes.content import Content
-
-
-# class cc:
-#     async def __init__(self, page: ft.Page):
-#         self.page = page
-#         self.page.theme_mode = ft.ThemeMode.DARK
-#         self.main()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -30,7 +23,6 @@ app = FastAPI(lifespan=lifespan)
 async def get_user(id: int = 0):
     return {f'Loja {id}'}       
 
-# @app.get('/')
 async def main(page: ft.Page):
 
     header = Header()

@@ -5,6 +5,7 @@ class Depoimentos(ft.UserControl):
         super().__init__(**kwargs)
         self.depoimento = depoimento
 
+    
     def build(self):
         return ft.Container(
             height=150,
