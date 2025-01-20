@@ -21,7 +21,10 @@ app = FastAPI(lifespan=lifespan)
 
 @app.get('/loja/{id}')
 async def get_user(id: int = 0):
-    return {f'Loja {id}'}       
+    return {f'Loja {id}'}      
+
+assets_path = os.path.join(os.path.dirname(__name__), "assets")  
+absolute_path = os.path.abspath(assets_path) 
 
 async def main(page: ft.Page):
 
@@ -47,7 +50,4 @@ async def main(page: ft.Page):
     await page.add_async(layout)  
     await page.update_async()
 
-assets_path = os.path.join(os.path.dirname(__name__), "assets")    
-
-
-app.mount(path='/', app=flet_fastapi.app(main, assets_dir='C:\\Users\\brsta\\OneDrive\\Documentos\\cc\\assets', web_renderer='canvaskit'))
+app.mount(path='/', app=flet_fastapi.app(main, assets_dir=absolute_path, web_renderer='canvaskit'))
