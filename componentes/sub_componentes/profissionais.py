@@ -47,37 +47,7 @@ class Profissionais(ft.UserControl):
                                     ),
                                     ],
                                 ),
-                                ft.Row(
-                                    controls=[
-                                        ft.Container(
-                                        content=ft.TextButton(
-                                            content=ft.Text(
-                                                value='Instagram',
-                                                color=ft.colors.WHITE,
-                                            ),
-                                            url=self.url_insta,
-                                        ),
-                                        border=ft.border.all(width=0.5, color=ft.colors.GREY_300),
-                                        border_radius=ft.border_radius.all(20),
-                                        expand=True,
-                                    ),
-                                    ],
-                                ),                                   
-                                ft.Row(
-                                    controls=[
-                                        ft.Container(
-                                        content=ft.TextButton(
-                                            content=ft.Text(
-                                                value='Whatsapp',
-                                                color=ft.colors.WHITE,
-                                            ),
-                                        ),
-                                        border=ft.border.all(width=0.5, color=ft.colors.GREY_300),
-                                        border_radius=ft.border_radius.all(20),
-                                        expand=True,
-                                    ),
-                                    ],
-                                ),   
+                                 
                                 ft.Row(
                                     controls=[
                                         ft.Container(
@@ -106,7 +76,7 @@ class Profissionais(ft.UserControl):
                         blur=10,
                         padding=ft.padding.only(top=100, left=10, right=10, bottom=10),
                         width=180,  
-                        height=360,                      
+                        # height=360,                      
                     ),
                     ft.Container(
                         height=100,

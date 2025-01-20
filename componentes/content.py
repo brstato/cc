@@ -13,12 +13,7 @@ class Content(ft.UserControl):
                     controls=[
                         Apresentacao(),
                     ],
-                    # scroll=ft.ScrollMode.ALWAYS,
                 ),
-                # border=ft.border.all(width=1, color=ft.Colors.GREY_300),
-                # border_radius=ft.border_radius.all(20),
-                # blur=10,                               
-                # bgcolor=ft.Colors.WHITE10,   
             ),
 
             margin=ft.margin.all(20),

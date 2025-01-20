@@ -13,6 +13,16 @@ class Apresentacao(ft.UserControl):
                 controls=[
                     ft.ResponsiveRow(
                         controls=[
+                            ft.Container(
+                                col={'xs': 12, 'sm': 6, 'md': 6, 'lg': 6},
+                                content=
+                                    ft.Image(
+                                        src='Logo.webp',
+                                    ),   
+                                
+                                alignment=ft.alignment.center_right,
+                                
+                            ),                            
                             ft.Column(
 
                                 col={'xs': 12, 'sm': 6, 'md': 6, 'lg': 6},
@@ -61,17 +71,6 @@ class Apresentacao(ft.UserControl):
                                     
                                 ],
                                 expand=True,                      
-                            ),
-
-                            ft.Container(
-                                col={'xs': 12, 'sm': 6, 'md': 6, 'lg': 6},
-                                content=
-                                    ft.Image(
-                                        src='Logo.webp',
-                                    ),   
-                                
-                                alignment=ft.alignment.center_right,
-                                
                             ),
                         ]
                     ), 
