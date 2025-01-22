@@ -1,17 +1,74 @@
 import flet as ft
+import asyncio
+# from handler import async_handler
 
+class Portifolio(ft.UserControl):
+    def __init__(self, page: ft.Page, images, **kwargs):
+        super().__init__(**kwargs)
+        self.images = images
+        self.profissionais = None
+        self.page = page
+
+    async def close_portifolio(self, e):
+        self.page.dialog.open = False         
+        await self.page.update_async()  
+
+    def build(self):
+        self.profissionais = ft.AlertDialog(
+            content=ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.Row(
+                            controls=[
+                                ft.IconButton(
+                                    icon=ft.icons.CLOSE,
+                                    icon_color=ft.colors.GREY_300,
+                                    on_click=lambda e: asyncio.create_task(self.close_portifolio(e)),
+                                ),
+                            ],
+                            alignment=ft.MainAxisAlignment.END,
+                        ),
+                        ft.GridView(
+                            expand=True,
+                            spacing=10,
+                            run_spacing=10,
+                            
+                            max_extent=500,
+                            controls=[
+                                ft.Image(
+                                    src=image, 
+                                    fit=ft.ImageFit.COVER,
+                                ) for image in self.images
+                            ]
+                        ),
+                    ]
+                ),
+                # bgcolor=ft.colors.AMBER,
+            ),
+            modal=True,
+        )
+        return self.profissionais         
 
 class Profissionais(ft.UserControl):
-    def __init__(self, Nome: str = '', insta: str = '', url_insta: str = '',  bio: str = '', image: str = 'default.jpg',  **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, page: ft.Page, Nome: str = '', insta: str = '', url_insta: str = '',  bio: str = '', image: str = 'default.jpg',  **kwargs):
+        super().__init__(self, **kwargs)
         self.nome = Nome
         self.bio = bio
         self.image = image
         self.insta = insta
         self.url_insta = url_insta
+        self.page = page
+        self.profissionais = None
 
-    def build(self):
-        return ft.Container(
+    async def show_portifolio(self, e):
+        dialog = Portifolio(page=self.page, images=['eu.jpg','eu.jpg','eu.jpg','eu.jpg','eu.jpg','eu.jpg','eu.jpg'])  
+        self.page.dialog = dialog.build()
+        self.page.dialog.open = True 
+        
+        await self.page.update_async()        
+
+    def build(self):   
+        self.profissionais = ft.Container(
             content=ft.Stack(
                 controls=[                   
                     ft.Container(
@@ -39,7 +96,9 @@ class Profissionais(ft.UserControl):
                                                 value='Portifólio',
                                                 color=ft.colors.WHITE,
                                             ),
-                                            url=self.url_insta,
+                                            # url=self.url_insta,
+                                            on_click=lambda e: asyncio.create_task(self.show_portifolio(e)),
+
                                         ),
                                         border=ft.border.all(width=0.5, color=ft.colors.GREY_300),
                                         border_radius=ft.border_radius.all(20),
@@ -76,7 +135,7 @@ class Profissionais(ft.UserControl):
                         blur=10,
                         padding=ft.padding.only(top=100, left=10, right=10, bottom=10),
                         width=180,  
-                        # height=360,                      
+                      
                     ),
                     ft.Container(
                         height=100,
@@ -105,3 +164,4 @@ class Profissionais(ft.UserControl):
             margin=ft.margin.only(top=20, left=20),
 
         )
+        return self.profissionais

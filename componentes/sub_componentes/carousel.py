@@ -1,11 +1,8 @@
 import flet as ft
 from typing import List
-import asyncio
+from handler import async_handler
 
-def async_handler(coro):  
-    def wrapper(e):
-        asyncio.create_task(coro(e)) 
-    return wrapper   
+
 
 class Carousel(ft.UserControl):
     def __init__(self, controls: List[ft.Control], **kwargs):

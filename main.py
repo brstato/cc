@@ -29,7 +29,7 @@ absolute_path = os.path.abspath(assets_path)
 async def main(page: ft.Page):
 
     header = Header()
-    content = Content()
+    content = Content(page)
 
     layout = ft.Container(
         content=ft.Column(
@@ -50,4 +50,6 @@ async def main(page: ft.Page):
     await page.add_async(layout)  
     await page.update_async()
 
+# if __name__ == '__main__':
+#         ft.app(target=main, assets_dir=absolute_path)
 app.mount(path='/', app=flet_fastapi.app(main, assets_dir=absolute_path, web_renderer='canvaskit'))

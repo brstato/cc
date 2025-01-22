@@ -4,8 +4,10 @@ from componentes.sub_componentes.depoimentos import Depoimentos
 from componentes.sub_componentes.carousel import Carousel
 
 class Apresentacao(ft.UserControl):
-    def __call__(self, **kwargs):
-        return super().__call__(**kwargs)
+    def __init__(self, page: ft.Page, **kwargs):
+        super().__init__(self,**kwargs)
+        self.page = page
+        
     
     def build(self):
         return ft.Container(
@@ -110,36 +112,41 @@ class Apresentacao(ft.UserControl):
                     Carousel(
                         controls=[
                             Profissionais(
+                                page=self.page,
                                 Nome='Bruno Tattoo',
-                                insta='@brunotattoo',
+                                insta='',
                                 url_insta='https://www.instagram.com/brunoribeiro.tatuador/',
                                 bio='Tatuador Profissional',
                                 image='eu.jpg',
                             ),
                             Profissionais(
+                                page=self.page,
                                 Nome='Bruno Tattoo',
-                                insta='@brunotattoo',
+                                insta='',
                                 url_insta='https://www.instagram.com/brunotattoo/',
                                 bio='Tatuador Profissional',
                                 image='eu.jpg',
                             ),
                             Profissionais(
+                                page=self.page,
                                 Nome='Bruno Tattoo',
-                                insta='@brunotattoo',
+                                insta='',
                                 url_insta='https://www.instagram.com/brunotattoo/',
                                 bio='Tatuador Profissional',
                                 image='eu.jpg',
                             ),
                             Profissionais(
+                                page=self.page,
                                 Nome='Bruno Tattoo',
-                                insta='@brunotattoo',
+                                insta='',
                                 url_insta='https://www.instagram.com/brunotattoo/',
                                 bio='Tatuador Profissional',
                                 image='eu.jpg',
                             ),
                             Profissionais(
+                                page=self.page,
                                 Nome='Bruno Tattoo',
-                                insta='@brunotattoo',
+                                insta='',
                                 url_insta='https://www.instagram.com/brunotattoo/',
                                 bio='Tatuador Profissional',
                                 image='eu.jpg',
