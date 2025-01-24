@@ -1,53 +1,8 @@
 import flet as ft
-import asyncio
-# from handler import async_handler
+import asyncio 
 
-class Portifolio(ft.UserControl):
-    def __init__(self, page: ft.Page, images, **kwargs):
-        super().__init__(**kwargs)
-        self.images = images
-        self.profissionais = None
-        self.page = page
+overlay_largeview = None
 
-    async def close_portifolio(self, e):
-        self.page.dialog.open = False         
-        await self.page.update_async()  
-
-    def build(self):
-        self.profissionais = ft.AlertDialog(
-            content=ft.Container(
-                content=ft.Column(
-                    controls=[
-                        ft.Row(
-                            controls=[
-                                ft.IconButton(
-                                    icon=ft.icons.CLOSE,
-                                    icon_color=ft.colors.GREY_300,
-                                    on_click=lambda e: asyncio.create_task(self.close_portifolio(e)),
-                                ),
-                            ],
-                            alignment=ft.MainAxisAlignment.END,
-                        ),
-                        ft.GridView(
-                            expand=True,
-                            spacing=10,
-                            run_spacing=10,
-                            
-                            max_extent=500,
-                            controls=[
-                                ft.Image(
-                                    src=image, 
-                                    fit=ft.ImageFit.COVER,
-                                ) for image in self.images
-                            ]
-                        ),
-                    ]
-                ),
-                # bgcolor=ft.colors.AMBER,
-            ),
-            modal=True,
-        )
-        return self.profissionais         
 
 class Profissionais(ft.UserControl):
     def __init__(self, page: ft.Page, Nome: str = '', insta: str = '', url_insta: str = '',  bio: str = '', image: str = 'default.jpg',  **kwargs):
@@ -59,13 +14,112 @@ class Profissionais(ft.UserControl):
         self.url_insta = url_insta
         self.page = page
         self.profissionais = None
+        self.overlay_largeview = None
+        self.overlay_portifolio = None
+
+
+    async def close_largeview(self, e):   
+        self.page.overlay.remove(self.overlay_largeview)      
+        await self.page.update_async()            
+
+    async def show_largeview(self, e):  
+        self.overlay_largeview = ft.Column(
+            controls=[                
+                        ft.Stack(
+                            controls=[
+                                ft.Container(
+                                    bgcolor=ft.colors.BLACK,
+                                    expand=True,
+                                    opacity=0.8,
+                                ),                              
+
+                                ft.Container(
+                                    image_src = 'eu.jpg',
+                                    expand=True,
+                                ),
+                                ft.Row(
+                                    controls=[
+                                        ft.IconButton(
+                                            icon=ft.icons.CLOSE,
+                                            icon_color=ft.colors.GREY_300,
+                                            on_click=self.close_largeview,
+                                        ),
+                                    ],
+                                    alignment=ft.MainAxisAlignment.END,
+                                ),                      
+                            ],
+                            expand=True,
+                        ),
+                    # ],
+                    # expand=True,
+                    # scroll = ft.ScrollMode.AUTO,
+                # ),
+            ],
+            expand=True,
+            # scroll=ft.ScrollMode.AUTO,
+        )
+        self.page.overlay.append(self.overlay_largeview)       
+        await self.page.update_async()                 
+
+    async def close_portifolio(self, e):
+        self.page.overlay.remove(self.overlay_portifolio)
+        await self.page.update_async()    
 
     async def show_portifolio(self, e):
-        dialog = Portifolio(page=self.page, images=['eu.jpg','eu.jpg','eu.jpg','eu.jpg','eu.jpg','eu.jpg','eu.jpg'])  
-        self.page.dialog = dialog.build()
-        self.page.dialog.open = True 
+        images=['eu.jpg','eu.jpg','eu.jpg','eu.jpg','eu.jpg','eu.jpg','eu.jpg']
         
-        await self.page.update_async()        
+        self.overlay_portifolio = ft.Column(
+            expand=True,
+            alignment=ft.MainAxisAlignment.CENTER,
+            controls=[   
+               
+                ft.Stack(
+                    controls=[
+                        ft.Container(                             
+                            bgcolor=ft.colors.BLACK,
+                            alignment=ft.alignment.center,
+                            expand=True,
+                            opacity=0.8,
+                        ), 
+                        ft.Container(
+                            content=ft.GridView(
+                            expand=True,
+                            spacing=10,
+                            run_spacing=10,
+                            
+                            max_extent=500,
+                            controls=[
+                                ft.Container(
+                                    image_src=image, 
+                                    image_fit=ft.ImageFit.COVER,
+                                    on_click=self.show_largeview,
+                                ) for image in images
+
+                            ]
+                            ),
+                            margin=ft.margin.all(50),
+                        ),  
+                        ft.Row(
+                            controls=[
+                                ft.IconButton(
+                                    icon=ft.icons.CLOSE,
+                                    icon_color=ft.colors.GREY_300,
+                                    on_click=self.close_portifolio,
+                                ),
+                            ],
+                            alignment=ft.MainAxisAlignment.END,
+                        ),                                                 
+                    ],
+                    expand=True,
+                    # scroll=ft.ScrollMode.AUTO,
+                ),              
+                                
+            ],
+        )
+
+        self.page.overlay.append(self.overlay_portifolio)
+        await self.page.update_async()          
+ 
 
     def build(self):   
         self.profissionais = ft.Container(
@@ -98,6 +152,7 @@ class Profissionais(ft.UserControl):
                                             ),
                                             # url=self.url_insta,
                                             on_click=lambda e: asyncio.create_task(self.show_portifolio(e)),
+                    
 
                                         ),
                                         border=ft.border.all(width=0.5, color=ft.colors.GREY_300),
