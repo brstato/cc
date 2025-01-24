@@ -31,6 +31,7 @@ class Profissionais(ft.UserControl):
                                     bgcolor=ft.colors.BLACK,
                                     expand=True,
                                     opacity=0.8,
+                                    on_click=self.close_largeview,
                                 ),                              
 
                                 ft.Container(
@@ -50,13 +51,10 @@ class Profissionais(ft.UserControl):
                             ],
                             expand=True,
                         ),
-                    # ],
-                    # expand=True,
-                    # scroll = ft.ScrollMode.AUTO,
-                # ),
+
             ],
             expand=True,
-            # scroll=ft.ScrollMode.AUTO,
+
         )
         self.page.overlay.append(self.overlay_largeview)       
         await self.page.update_async()                 
