@@ -1,5 +1,6 @@
 import flet as ft
 import asyncio 
+import json
 
 overlay_largeview = None
 
@@ -16,7 +17,28 @@ class Profissionais(ft.UserControl):
         self.profissionais = None
         self.overlay_largeview = None
         self.overlay_portifolio = None
+        self.escala: int = 1
+        self.altura: int = 500
+        self.largura: int = 500
+        self.image_container_ref = ft.Ref()
 
+    async def resize_largeview(self, e):   
+        data = json.loads(e.data)
+        dy = data['dy']
+        dx = data['dx']
+        if dy < 0:
+            scale_factor = 1.1
+        else:
+            scale_factor = 0.9
+
+        self.altura = self.altura * scale_factor
+        self.largura = self.largura * scale_factor
+
+        if self.image_container_ref.current:
+            self.image_container_ref.current.content.width = self.largura
+            self.image_container_ref.current.content.height = self.altura
+
+        await self.page.update_async()      
 
     async def close_largeview(self, e):   
         self.page.overlay.remove(self.overlay_largeview)      
@@ -33,11 +55,32 @@ class Profissionais(ft.UserControl):
                                     opacity=0.8,
                                     on_click=self.close_largeview,
                                 ),                              
+                                ft.Row(
+                                    controls=[
+                                        ft.Container(
+                                            ref=self.image_container_ref,
+                                            content=ft.GestureDetector(
+                                                content=ft.Image(
+                                                    src='eu.jpg',
+                                                    fit=ft.ImageFit.CONTAIN,
+                                                    # scale=ft.Scale(),
+                                                    width=self.largura,
+                                                    height=self.altura,
 
-                                ft.Container(
-                                    image_src = 'eu.jpg',
+                                                ),
+                                                on_scroll=self.resize_largeview,
+                                                on_scale_update=self.resize_largeview,
+                                            ),
+
+                                            # image_src = 'eu.jpg',
+                                            expand=True,
+                                            # clip_behavior=ft.ClipBehavior.NONE,
+                                        ),
+                                    ],
+                                    alignment=ft.CrossAxisAlignment.CENTER,
                                     expand=True,
                                 ),
+
                                 ft.Row(
                                     controls=[
                                         ft.IconButton(
@@ -54,6 +97,7 @@ class Profissionais(ft.UserControl):
 
             ],
             expand=True,
+            alignment=ft.MainAxisAlignment.CENTER,
 
         )
         self.page.overlay.append(self.overlay_largeview)       
